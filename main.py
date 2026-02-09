@@ -33,7 +33,6 @@ def addWatermark():
 
 def saveEditedImage():
     global img
-    print("save edited watermarked image")
     if img :
         save_path = filedialog.asksaveasfilename(
             defaultextension=".png",
@@ -49,6 +48,11 @@ def saveEditedImage():
     else:
         messagebox.showwarning("Warning", "No image is currently loaded or edited.")
 
+def checkInput(*args):
+    if nameTag.get().strip():
+        addWatermarkButton.config(state=tk.NORMAL)
+    else:
+        addWatermarkButton(state=tk.DISABLED)
 
 
 if __name__ == "__main__":
@@ -63,6 +67,7 @@ if __name__ == "__main__":
     #declaring string variable
     #watermark string check
     nameTag = tk.StringVar()
+    nameTag.trace_add("write", checkInput)
 
     #creating a label for
     #nameTapg using widget Label
@@ -82,7 +87,7 @@ if __name__ == "__main__":
     imgLabel = Label(app, image=tkImg)
 
     # creating button to add name tag text on top of image
-    addWatermarkButton = tk.Button(app , text= "add watermark", command=addWatermark)
+    addWatermarkButton = tk.Button(app , text= "add watermark", command=addWatermark , state=tk.DISABLED)
 
     #creating button to save edited,which name tag is added,
     saveEditedIamge = tk.Button(app , text = " save edited image" , command =saveEditedImage , state=tk.DISABLED)
