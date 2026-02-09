@@ -1,22 +1,25 @@
 import tkinter as tk
 from tkinter import Label
 from tkinter import filedialog , messagebox
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk , ImageDraw
+from PIL.ImageFont import ImageFont
 from pyexpat.errors import messages
 
 
 def imageUploader():
     global img
+    global shown_img
     fileTypes = [("Image files", "*.png;*.jpg;*.jpeg")]
     path = tk.filedialog.askopenfilename(filetypes=fileTypes)
 
     # if file is selected
     if len(path):
         app.geometry("1000x1000")
-        # img = Image.open(path)
-        img = ImageTk.PhotoImage(file=path)
+        img = Image.open(path)
+        # img.grid(row=2, columnspan=3)
+        shown_img = ImageTk.PhotoImage(file=path)
         # picLable= Label(app, image=pic)
-        buttonImage = tk.Button(app, image=img)
+        buttonImage = tk.Button(app, image=shown_img)
         buttonImage.grid(row=2, columnspan=3)
 
     else:
@@ -25,26 +28,30 @@ def imageUploader():
 def addWatermark():
     global img
     global nameTag
-    print("add watermark to img and name tag is " , nameTag.get())
     #create a label with text over the image
-    centerLabel = tk.Label(app , text=nameTag.get() , image=img, compound='center',fg="grey",font=("Arial", 14 , "bold"))
-    centerLabel.grid(row=4 ,columnspan=4)
+    draw = ImageDraw.Draw(img)
+    position = (10, 10)  # (x, y) coordinates
+    draw.text(position, nameTag.get(), fill=(255, 255, 255))  # White color
+    # centerLabel = tk.Label(app , text=nameTag.get() , image=img, compound='center',fg="grey",font=("Arial", 14 , "bold"))
+    # centerLabel.grid(row=4 ,columnspan=4)
     saveEditedIamge.config(state=tk.NORMAL)
 
 def saveEditedImage():
-    global img
+    # global copied_img
+    # copied_img.save("watermarked_image.png")
     if img :
-        save_path = filedialog.asksaveasfilename(
-            defaultextension=".png",
-            filetypes=[("PNG file", ".png"), ("JPEG file" , "*jpg")],
-            initialfile="edited_image.png"
-        )
-        if save_path:
-            try:
-                img.save(save_path)
-                messagebox.showinfo("success" ,f"Image saved successfully to {save_path}" )
-            except Exception as e:
-                messagebox.showerror("error" ,  f"An error occurred while saving: {e}")
+        img.save("watermarked_image.png")
+        # save_path = filedialog.asksaveasfilename(
+        #     defaultextension=".png",
+        #     filetypes=[("PNG file", ".png"), ("JPEG file" , "*jpg")],
+        #     initialfile="edited_image.png"
+        # )
+        # if save_path:
+        #     try:
+        #         img.save(save_path)
+        #         messagebox.showinfo("success" ,f"Image saved successfully to {save_path}" )
+        #     except Exception as e:
+        #         messagebox.showerror("error" ,  f"An error occurred while saving: {e}")
     else:
         messagebox.showwarning("Warning", "No image is currently loaded or edited.")
 
