@@ -32,8 +32,6 @@ def addWatermark():
     draw = ImageDraw.Draw(img)
     position = (10, 10)  # (x, y) coordinates
     draw.text(position, nameTag.get(), fill=(255, 255, 255))  # White color
-    # centerLabel = tk.Label(app , text=nameTag.get() , image=img, compound='center',fg="grey",font=("Arial", 14 , "bold"))
-    # centerLabel.grid(row=4 ,columnspan=4)
     saveEditedIamge.config(state=tk.NORMAL)
 
 def saveEditedImage():
@@ -41,17 +39,7 @@ def saveEditedImage():
     # copied_img.save("watermarked_image.png")
     if img :
         img.save("watermarked_image.png")
-        # save_path = filedialog.asksaveasfilename(
-        #     defaultextension=".png",
-        #     filetypes=[("PNG file", ".png"), ("JPEG file" , "*jpg")],
-        #     initialfile="edited_image.png"
-        # )
-        # if save_path:
-        #     try:
-        #         img.save(save_path)
-        #         messagebox.showinfo("success" ,f"Image saved successfully to {save_path}" )
-        #     except Exception as e:
-        #         messagebox.showerror("error" ,  f"An error occurred while saving: {e}")
+        messagebox.showinfo("success", f"Image saved successfully")
     else:
         messagebox.showwarning("Warning", "No image is currently loaded or edited.")
 
