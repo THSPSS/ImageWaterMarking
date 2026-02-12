@@ -2,8 +2,6 @@ import tkinter as tk
 from tkinter import Label
 from tkinter import filedialog , messagebox
 from PIL import Image, ImageTk , ImageDraw
-from PIL.ImageFont import ImageFont
-from pyexpat.errors import messages
 
 
 def imageUploader():
